@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from fastai.vision.all import load_learner, PILImage
 import io
 
@@ -7,11 +7,6 @@ app = Flask(__name__)
 # Load Fastai models
 cucumber_model = load_learner('models/cucumber_classifier_model.pkl')
 pumpkin_model = load_learner('models/pumpkin_classifier_model.pkl')
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 
 @app.route('/predict', methods=['POST'])
@@ -30,8 +25,7 @@ def predict():
     else:
         return jsonify({'error': 'Invalid model choice'}), 400
 
-    result = prediction
-    return jsonify({'prediction': str(result)})
+    return jsonify({'prediction': str(prediction)})
 
 
 if __name__ == '__main__':
